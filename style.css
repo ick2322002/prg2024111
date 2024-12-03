@@ -4,9 +4,8 @@ body{
     font-family: system-ui;
 }
 h1 {
-    font-size:large;
-    font-weight:bold;
     color:   blue;
+    background-color: black;
 }
 
 h2 {
