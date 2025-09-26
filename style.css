@@ -1,1 +1,18 @@
+body {
+    display: flex; /* 要素を中央に配置するために使用 */
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 画面いっぱいに広げる */
+    margin: 0;
+    background-color: #282c34; /* 暗めの背景色 */
+    font-family: 'Arial', sans-serif;
+}
 
+#clock {
+    font-size: 80px; /* 大きな文字サイズ */
+    color: #61dafb; /* 見やすい色 */
+    padding: 20px;
+    border: 5px solid #61dafb;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(97, 218, 251, 0.5); /* 影をつけて目立たせる */
+}
