@@ -1,33 +1,19 @@
-// 1. 時刻を表示するHTML要素を取得
-const clockElement = document.getElementById('clock');
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.x/firebase-app.js";
+import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js";
 
-// 2. 現在の時刻を取得し、整形して表示する関数
-function updateClock() {
-    // 現在の日付と時刻を取得
-    const now = new Date(); 
+// Firebaseの設定（コンソールからコピー）
+const firebaseConfig = { ... };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    // 時、分、秒を取得
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-
-    // 桁が1桁だった場合、頭に '0' をつけて2桁にする（例: 5 -> 05）
-    // 条件演算子 (三項演算子) を使って短く記述
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    // 時刻を "HH:MM:SS" の形式にまとめる
-    const timeString = ${hours}:${minutes}:${seconds};
-
-    // 取得したHTML要素（clockElement）のテキストを更新
-    clockElement.textContent = timeString;
-}
-
-// 3. 1000ミリ秒（1秒）ごとに updateClock 関数を実行する
-// これにより、時刻がリアルタイムで更新され続けます
-setInterval(updateClock, 1000);
-
-// プログラムが開始されたとき、すぐに一度時刻を表示しておく
-updateClock();
-
+// データのリアルタイム監視
+const q = query(collection(db, "attendance_logs"), orderBy("timestamp", "desc"));
+onSnapshot(q, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+            const data = change.doc.data();
+            console.log("新しい出席者:", data.card_id);
+            // ここでHTMLを書き換えてiPadの画面にリスト表示する
+        }
+    });
+});
